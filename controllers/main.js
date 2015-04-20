@@ -40,6 +40,10 @@ exports.send = function(request, reply) {
         message.timeToLive = parseInt(request.payload.time_to_live);
 	}
 
+	if(request.payload.collapseKey != '') {
+        message.collapseKey = request.payload.collapseKey;
+	}
+
 	findRegs(function(regs){
 		var regIds = [];
 		regs.forEach(function(a){
