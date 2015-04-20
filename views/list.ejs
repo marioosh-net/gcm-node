@@ -1,9 +1,7 @@
-<%if(typeof locals.kittens != 'undefined' && kittens.length > 0) {%>
+<%if(typeof locals.regs != 'undefined' && regs.length > 0) {%>
 <ul class="list-group">
-	<%for(var i=0;i<kittens.length;i++){%>
-		<li class="list-group-item" style="<%if(kittens[i].color != null) {%>background-color:<%=kittens[i].color%>;<%}%>">			
-			<span class="left"> <img src="/static/images/kitty.jpg"/> <%=kittens[i].name%></span>
-			<button class="delete right btn btn-default" kittenid="<%=kittens[i]._id%>">Delete</button> <div class="clear"></div>
+	<%for(var i=0;i<regs.length;i++){%>
+		<li><%=regs[i].regid%>
 		</li>
 	<%}%>
 </ul>

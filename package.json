@@ -11,6 +11,7 @@
     "ejs":"*",
     "node-phantom":"*",
     "phantomjs":"*",
+    "node-gcm":"*",
     "temp":"*",
     "socket.io":"*",
     "mongoose":"*",
