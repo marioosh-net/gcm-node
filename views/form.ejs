@@ -7,11 +7,16 @@
     	<label class="sr-only" for="message">Message</label>
     	<textarea name="message" class="form-control" id="message" placeholder="Message" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.message%><%}%>"></textarea>
   	</div>	
- 	<div class="form-group">
+ 	<div class="checkbox">
+    <label>
+      <input id="more" type="checkbox"> Więcej opcji
+    </label>
+  	</div>
+ 	<div class="form-group hidden h">
     	<label class="sr-only" for="time_to_live">TTL</label>
     	<input type="number" id="replyNumber" min="0" step="60" max="2419200" data-bind="value:replyNumber" name="time_to_live" class="form-control" placeholder="TTL" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.time_to_live%><%}%>"/>
   	</div>	  	
- 	<div class="form-group">
+ 	<div class="form-group hidden h">
     	<label class="sr-only" for="collapseKey">collapseKey</label>
     	<input type="text" name="collapseKey" class="form-control" id="collapseKey" placeholder="collapseKey" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.collapseKey%><%}%>"/>
   	</div>	
@@ -40,6 +45,9 @@ $(function (){
 			//$('#message2').text(jqXHR.responseText);
 			alert(jqXHR.responseText);
 		});				
+	});
+	$('#more').change(function (){
+		$('.h').toggleClass('hidden');
 	});
 });
 </script>
