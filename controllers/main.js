@@ -37,7 +37,7 @@ exports.send = function(request, reply) {
 	message.addData('title', request.payload.title);
 	message.addData('message', request.payload.message);
 	if(request.payload.time_to_live != '') {
-		message.timeToLive = request.payload.time_to_live;
+        message.timeToLive = parseInt(request.payload.time_to_live);
 	}
 
 	findRegs(function(regs){
@@ -45,6 +45,8 @@ exports.send = function(request, reply) {
 		regs.forEach(function(a){
 			regIds.push(a.regid);
 		});
+        console.log('wysylanie push...');
+        console.log(message);
 		var sender = new gcm.Sender('AIzaSyDh3MXJt_LDTldz1pZC4RRZr84DhD4qmmc');
 		sender.send(message, regIds, function (err, result) {
 		    if(err) {
