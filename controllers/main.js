@@ -49,7 +49,7 @@ exports.send = function(request, reply) {
 		    	reply().code(400);
 		    } else {
 		    	console.log(result);
-		    	reply().code(200);
+		    	reply(JSON.stringify(result,null,2)).code(200);
 			}
 		});		
 	});

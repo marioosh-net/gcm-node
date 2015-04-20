@@ -1,12 +1,14 @@
 <%if(typeof locals.regs != 'undefined' && regs.length > 0) {%>
 <ul class="list-group">
 	<%for(var i=0;i<regs.length;i++){%>
-		<li><%=regs[i].name%>
-		<button class="delete right btn btn-default" regid="<%=regs[i]._id%>">Delete</button> <div class="clear"></div>
+
+		<li class="list-group-item">			
+			<span class="left"><strong>Nazwa: </strong><%=regs[i].name%><br/><strong>Reg ID: </strong><%=regs[i].regid%></span>
+			<button class="delete right btn btn-default" regid="<%=regs[i]._id%>">Usuń</button> <div class="clear"></div>
 		</li>
 	<%}%>
 </ul>
-<button class="delete btn btn-default">Delete All</button>
+<button class="delete btn btn-default">Usuń wszystkie</button>
 <%}%>
 <script>
 $(function (){

@@ -1,11 +1,11 @@
-<form method="post" action="/send" role="form" class="form-inline" id="add-form">
+<form method="post" action="/send" role="form" class="form-inline_" id="add-form">
  	<div class="form-group">
     	<label class="sr-only" for="title">Title</label>
     	<input type="text" name="title" class="form-control" id="title" placeholder="Title" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.title%><%}%>"/>
   	</div>	
  	<div class="form-group">
     	<label class="sr-only" for="message">Message</label>
-    	<input type="text" name="message" class="form-control" id="message" placeholder="Message" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.message%><%}%>"/>
+    	<textarea name="message" class="form-control" id="message" placeholder="Message" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.message%><%}%>"></textarea>
   	</div>	
   	<button type="button" class="btn btn-default" id="send">Push</button>
   	<div class="hidden-submit"><input type="submit" tabindex="-1"/></div>
@@ -25,10 +25,12 @@ $(function (){
 		})
 		.done(function(data, status, request) {
 			$('#list').load('/list');
-			$('#message').text('');
+			$('#message2').text('');
+			alert(data);
 		})
 		.fail(function(jqXHR, status, error){
-			$('#message').text(jqXHR.responseText);
+			$('#message2').text(jqXHR.responseText);
+			alert(jqXHR.responseText);
 		});				
 	});
 });
