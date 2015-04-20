@@ -36,6 +36,9 @@ exports.send = function(request, reply) {
 	var message = new gcm.Message();
 	message.addData('title', request.payload.title);
 	message.addData('message', request.payload.message);
+	if(request.payload.time_to_live != '') {
+		message.timeToLive = request.payload.time_to_live;
+	}
 
 	findRegs(function(regs){
 		var regIds = [];
@@ -46,7 +49,7 @@ exports.send = function(request, reply) {
 		sender.send(message, regIds, function (err, result) {
 		    if(err) {
 		    	console.error(err);
-		    	reply().code(400);
+		    	reply(err).code(400);
 		    } else {
 		    	console.log(result);
 		    	reply(JSON.stringify(result,null,2)).code(200);
@@ -76,9 +79,11 @@ exports.register = function(request, reply) {
 					if (err) {
 						reply(err).code(400);
 					}
+					console.log(request.payload.name + ' zarejestrowany');
 					reply().code(201);
 				});		
 			} else {
+				console.log(request.payload.name + ' byl wczesniej rejestrowany');
 				reply().code(200);
 			}
 		});

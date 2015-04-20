@@ -7,6 +7,10 @@
     	<label class="sr-only" for="message">Message</label>
     	<textarea name="message" class="form-control" id="message" placeholder="Message" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.message%><%}%>"></textarea>
   	</div>	
+ 	<div class="form-group">
+    	<label class="sr-only" for="time_to_live">TTL</label>
+    	<input type="number" id="replyNumber" min="0" step="60" max="2419200" data-bind="value:replyNumber" name="time_to_live" class="form-control" placeholder="TTL" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.time_to_live%><%}%>"/>
+  	</div>	  	
   	<button type="button" class="btn btn-default" id="send">Push</button>
   	<div class="hidden-submit"><input type="submit" tabindex="-1"/></div>
 </form>
@@ -25,11 +29,11 @@ $(function (){
 		})
 		.done(function(data, status, request) {
 			$('#list').load('/list');
-			$('#message2').text('');
+			//$('#message2').text('');
 			alert(data);
 		})
 		.fail(function(jqXHR, status, error){
-			$('#message2').text(jqXHR.responseText);
+			//$('#message2').text(jqXHR.responseText);
 			alert(jqXHR.responseText);
 		});				
 	});
