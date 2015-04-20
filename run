@@ -1,0 +1,2 @@
+#!/bin/sh
+/home/wrobelm/bin/node app.js > app.log
