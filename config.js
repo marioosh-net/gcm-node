@@ -1,6 +1,6 @@
 module.exports = {
     server: {
-        port: 3000
+        port: 9005
     },
-    db: 'mongodb://localhost/node-starter',
+    db: 'mongodb://localhost/gcm',
 };

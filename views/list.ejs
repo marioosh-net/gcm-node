@@ -1,7 +1,8 @@
 <%if(typeof locals.regs != 'undefined' && regs.length > 0) {%>
 <ul class="list-group">
 	<%for(var i=0;i<regs.length;i++){%>
-		<li><%=regs[i].regid%>
+		<li><%=regs[i].name%>
+		<button class="delete right btn btn-default" regid="<%=regs[i]._id%>">Delete</button> <div class="clear"></div>
 		</li>
 	<%}%>
 </ul>
@@ -10,7 +11,7 @@
 <script>
 $(function (){
 	$('button.delete').click(function(){
-		var id = $(this).attr('kittenid');
+		var id = $(this).attr('regid');
 		$.ajax({
 			url: '/del/'+(typeof id != 'undefined' ? id : '')
 		})

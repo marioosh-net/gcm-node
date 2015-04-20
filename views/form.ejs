@@ -1,9 +1,13 @@
 <form method="post" action="/send" role="form" class="form-inline" id="add-form">
  	<div class="form-group">
-    	<label class="sr-only" for="name">Message</label>
+    	<label class="sr-only" for="title">Title</label>
+    	<input type="text" name="title" class="form-control" id="title" placeholder="Title" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.title%><%}%>"/>
+  	</div>	
+ 	<div class="form-group">
+    	<label class="sr-only" for="message">Message</label>
     	<input type="text" name="message" class="form-control" id="message" placeholder="Message" value="<%if(typeof locals.payload != 'undefined'){%><%=payload.message%><%}%>"/>
   	</div>	
-  	<button type="button" class="btn btn-default" id="send">Send</button>
+  	<button type="button" class="btn btn-default" id="send">Push</button>
   	<div class="hidden-submit"><input type="submit" tabindex="-1"/></div>
 </form>
 

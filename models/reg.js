@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var RegSchema = new Schema({
-  regid: String
+  regid: String,
+  name: String
 });
 
 mongoose.model('Reg', RegSchema);

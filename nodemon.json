@@ -1,0 +1,13 @@
+{
+  "verbose": true,
+  "ext": "ejs, js, json, sql",
+  "ignore": [
+  	"static/js/*min.js",
+   	".git",
+    "service.json",
+    "node_modules/**/node_modules"  	
+  ],
+  "execMap": {
+    "js": "node"
+  }
+}

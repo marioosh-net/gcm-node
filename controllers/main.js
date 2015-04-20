@@ -1,16 +1,6 @@
 var Joi = require('joi');
 var gcm = require('node-gcm');
-var Cat = require('mongoose').model('Cat');
 var Reg = require('mongoose').model('Reg');
-
-var findKittens = function(callback) {
-	Cat.find(function(err, kittens){
-		if(err) {
-			throw err;
-		}
-		callback(kittens);
-	});
-}
 
 var findRegs = function(callback) {
 	Reg.find(function(err, regs){
@@ -21,14 +11,30 @@ var findRegs = function(callback) {
 	});
 }
 
+var findRegsByRegid = function(regid, callback) {
+	Reg.find({regid: regid}, function(err, regs){
+		if(err) {
+			throw err;
+		}
+		callback(regs);
+	});
+}
+
+/**
+ * one-page
+ */
 exports.home = function(request, reply) {
 	findRegs(function(regs){
 		reply.view('index', {regs: regs});
 	});	
 };
 
+/**
+ * wysyla push notification do wszystkich zarejestrowanych
+ */
 exports.send = function(request, reply) {
 	var message = new gcm.Message();
+	message.addData('title', request.payload.title);
 	message.addData('message', request.payload.message);
 
 	findRegs(function(regs){
@@ -36,41 +42,54 @@ exports.send = function(request, reply) {
 		regs.forEach(function(a){
 			regIds.push(a.regid);
 		});
-		console.log(regIds);
 		var sender = new gcm.Sender('AIzaSyDh3MXJt_LDTldz1pZC4RRZr84DhD4qmmc');
 		sender.send(message, regIds, function (err, result) {
 		    if(err) {
 		    	console.error(err);
+		    	reply().code(400);
 		    } else {
 		    	console.log(result);
+		    	reply().code(200);
 			}
 		});		
 	});
 }
 
-exports.add = function(request, reply) {
+/**
+ * dodaje do listy o ile juz taki regid nie istnieje
+ */
+exports.register = function(request, reply) {
 
 	/**
 	 * validate by joi validator
 	 */
 	var validation = Joi.validate(request.payload, {
-		regid: Joi.string()
+		regid: Joi.string(),
+		name: Joi.string()
 	});
 
 	if(validation.error == null) {
-		var reg = new Reg({ regid: request.payload.regid});
-		console.log(reg);
-		reg.save(function (err) {
-			if (err) {
-				reply(err).code(400);
+		findRegsByRegid(request.payload.regid, function(regs){
+			if(regs.length == 0) {
+				var reg = new Reg(request.payload);
+				reg.save(function (err) {
+					if (err) {
+						reply(err).code(400);
+					}
+					reply().code(201);
+				});		
+			} else {
+				reply().code(200);
 			}
-			reply().code(200);
-		});		
+		});
 	} else {
 		reply(validation.message).code(400);
 	}
 };
 
+/**
+ *
+ */
 exports.del = function(request, reply) {
 	var conditions = request.params.id ? {_id:request.params.id}:{};
 	Reg.remove(conditions, function(err) {
@@ -82,13 +101,13 @@ exports.del = function(request, reply) {
 };
 
 exports.list = function(request, reply) {
-	findKittens(function(kittens){
-		reply.view('list', {kittens: kittens});
+	findRegs(function(regs){
+		reply.view('list', {regs: regs});
 	});
 };
 
 exports.list_json = function(request, reply) {
-	findKittens(function(kittens){
-		reply(kittens);
+	findRegs(function(regs){
+		reply(regs);
 	});
 };
