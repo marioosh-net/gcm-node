@@ -73,7 +73,7 @@ exports.add = function(request, reply) {
 
 exports.del = function(request, reply) {
 	var conditions = request.params.id ? {_id:request.params.id}:{};
-	Cat.remove(conditions, function(err) {
+	Reg.remove(conditions, function(err) {
 		if (err) {
 			reply(err).code(400);
 		}
