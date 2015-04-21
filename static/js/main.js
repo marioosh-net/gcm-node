@@ -1,4 +1,12 @@
 $(function (){
+	var modal = function(text) {
+		$('#modal-event-body').text(text);
+		$('#modal-event').modal('show');		
+	};
+	$('#modal-event').on('hidden.bs.modal', function (e) {
+		location.href = location.href; // przeladuj stronke
+	})			
+
 	/**
 	 * socket.io
 	 */
@@ -10,9 +18,8 @@ $(function (){
 		socket = io.connect();//auto-discovery	
 	}
 	socket.on('add', function (data) {
-		alert('Nowe urządzenie \''+data.name+ '\'.');
+		modal('Nowe urządzenie \''+data.name+ '\'.');
 		console.log('Nowe urządzenie \''+data.name+ '\'.');
-		location.href = location.href; // przeladuj stronke
 	});
 	socket.on('readd', function (data) {
 		console.log('Reconnect urządzenia \''+data.name+ '\'.');
