@@ -1,6 +1,10 @@
+global._require = function(name) {
+    return require(__dirname + '/' + name);
+}
 var Hapi = require('hapi');
 var mongoose = require('mongoose');
-var Config = require('./config');
+var SocketIO = require('socket.io');
+var Config = _require('config');
 
 var server = new Hapi.Server('0.0.0.0', Config.server.port, {cors: true});
 
@@ -58,6 +62,15 @@ server.pack.require('./node_modules/hapi-plugin-app', function (err) {
     if(err) {
         throw err;
     }
+
+    /**
+     * socket.io
+     */
+    var io = SocketIO.listen(server.listener);
+    io.sockets.on('connection', function(socket) {
+        socket.emit('Hello');
+    });
+    server.io = io;
 
     /**
      * start server, print routing table

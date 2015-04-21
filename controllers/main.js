@@ -1,3 +1,4 @@
+var Config = _require('config');
 var Joi = require('joi');
 var gcm = require('node-gcm');
 var Reg = require('mongoose').model('Reg');
@@ -25,7 +26,10 @@ var findRegsByRegid = function(regid, callback) {
  */
 exports.home = function(request, reply) {
 	findRegs(function(regs){
-		reply.view('index', {regs: regs});
+		reply.view('index', {
+			regs: regs,
+			ioSocketUrl: Config.ioSocketUrl
+		});
 	});	
 };
 
@@ -51,7 +55,7 @@ exports.send = function(request, reply) {
 		});
         console.log('wysylanie push...');
         console.log(message);
-		var sender = new gcm.Sender('AIzaSyDh3MXJt_LDTldz1pZC4RRZr84DhD4qmmc');
+		var sender = new gcm.Sender(Config.gcmApiKey);
 		sender.send(message, regIds, function (err, result) {
 		    if(err) {
 		    	console.error(err);
@@ -85,10 +89,12 @@ exports.register = function(request, reply) {
 					if (err) {
 						reply(err).code(400);
 					}
+					request.server.io.sockets.emit('add', request.payload);
 					console.log(request.payload.name + ' zarejestrowany');
 					reply().code(201);
 				});		
 			} else {
+				request.server.io.sockets.emit('readd', request.payload);
 				console.log(request.payload.name + ' byl wczesniej rejestrowany');
 				reply().code(200);
 			}

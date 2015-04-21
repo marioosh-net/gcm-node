@@ -3,10 +3,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>GCM Server</title>
 		<script src="/static/js/jquery.min.js"></script>
+		<script>var ioSocketUrl = '<%= typeof locals.ioSocketUrl != 'undefined' ? locals.ioSocketUrl : null %>';</script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>		
 		<script src="/static/js/main.js?v=<%=Math.random()%>"></script>
 		<script src="/static/js/jquery.cookie.js"></script>
-		<!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
-
 		<!--bootstrap-->
 		<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.min.css">
